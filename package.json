@@ -2,6 +2,7 @@
   "name": "lawnextjs",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://lawserver.azurewebsites.net",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,9 +10,23 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@mantine/carousel": "^5.6.3",
+    "@mantine/core": "^5.6.3",
+    "@mantine/dates": "^5.6.3",
+    "@mantine/form": "^5.6.3",
+    "@mantine/hooks": "^5.6.3",
+    "@mantine/modals": "^5.6.3",
+    "@mantine/notifications": "^5.6.3",
+    "@mantine/nprogress": "^5.6.3",
+    "@tabler/icons": "^1.108.0",
+    "dayjs": "^1.11.6",
+    "embla-carousel-react": "^7.0.3",
+    "framer-motion": "^7.6.2",
     "next": "13.0.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-input-mask": "^2.0.4"
   },
   "devDependencies": {
     "eslint": "8.26.0",
