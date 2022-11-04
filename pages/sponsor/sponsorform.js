@@ -1,32 +1,12 @@
 import { useForm } from "@mantine/form";
-import { Modal, Button, Group, InputBase,TextInput,Stepper,Tabs,Image,Autocomplete } from '@mantine/core';
-import { IconDeviceMobile,IconMail,IconX,IconPhoto,IconMessageCircle,IconSettings,IconKey,IconCheck,IconPigMoney,IconChevronsRight,IconAward,IconAd,IconTrophy } from '@tabler/icons';
+import { Avatar,Modal, Button, Group, InputBase,TextInput,Stepper,Tabs,Image,Autocomplete,Accordion } from '@mantine/core';
+import { IconDeviceMobile,IconMail,IconX,IconPhoto,IconMessageCircle,IconUserCircle,IconCheck,IconPigMoney,IconChevronsRight,IconAward,IconAd,IconTrophy } from '@tabler/icons';
 import { showNotification,updateNotification} from "@mantine/notifications";
-import {useState } from "react";
+import {useState,useEffect } from "react";
+import {motion,useAnimation } from 'framer-motion';
+import {useInView} from 'react-intersection-observer';
 import InputMask from 'react-input-mask';
 
-
-/*<Timeline style={{margin: '5%'}} active={1} bulletSize={24} lineWidth={2}>
-      <Timeline.Item bullet={<IconGavel size={12} />} title="Competitions">
-        <Text color="dimmed" size="sm">Test<Text variant="link" component="span" inherit></Text>Test</Text>
-        <Text size="xs" mt={4}>Test</Text>
-      </Timeline.Item>
-
-      <Timeline.Item bullet={<IconGitCommit size={12} />} title="test">
-        <Text color="dimmed" size="sm">test<Text variant="link" component="span" inherit>test</Text></Text>
-        <Text size="xs" mt={4}>test</Text>
-      </Timeline.Item>
-
-      <Timeline.Item title="test" bullet={<IconSectionSign size={15} />} lineVariant="dashed">
-        <Text color="dimmed" size="sm">test<Text variant="link" component="span" inherit>test</Text></Text>
-        <Text size="xs" mt={4}>test</Text>
-      </Timeline.Item>
-
-      <Timeline.Item title="test" bullet={<IconMessageDots size={12} />}>
-        <Text color="dimmed" size="sm"><Text variant="link" component="span" inherit>test</Text> test</Text>
-        <Text size="xs" mt={4}>test</Text>
-      </Timeline.Item>
-    </Timeline>*/
 
 function sponsorform() {
 
@@ -54,7 +34,10 @@ function sponsorform() {
 }
 
 function Form() {
+    const {ref,inView} = useInView()
     const [email, setEmail] = useState('');
+    const animation = useAnimation()
+    const animation2 = useAnimation()
     const form = useForm({
         validateInputOnChange: [
             'email'
@@ -73,7 +56,6 @@ function Form() {
       email.trim().length > 0 && !email.includes('@')
         ? ['gmail.com', 'outlook.com', 'yahoo.com'].map((provider) => `${email}@${provider}`)
         : [];
-
 
     function Check(){
         showNotification({
@@ -105,28 +87,107 @@ function Form() {
             });
         }
     }
+
+    useEffect(()=>{
+        if (inView){
+            animation.start({
+                x:0,
+                transition: {
+                    type: 'spring',damping: 7,stiffness: 50, repeat: null,duration: 1
+                }
+            })
+            animation2.start({
+                x:0,
+                transition: {
+                    type: 'spring',damping: 7,stiffness: 50, repeat: null,duration: 1
+                }
+            })
+        }else if (!inView){
+            animation.start({x:'100vw'})
+            animation2.start({x:'-100vw'})
+        }
+        
+        console.log("use effect hook, inView = ",inView)
+      },[inView])
   
     return (
-    <>
-        <form style={{maxWidth: '50%',margin: 'auto'}} onSubmit={form.onSubmit((values)=>console.log(values))}>
-            <TextInput styles={{input: {borderRadius: '10px',borderBlockColor: 'purple'}}} label="Name" placeholder="Alex Arma" {...form.getInputProps('names')} />
-            <Autocomplete 
-                styles={{input: {borderRadius: '10px',borderBlockColor: 'purple'}}}
-                withAsterisk
-                value={email}
-                onChange={setEmail}
-                label="Email"
-                placeholder="Your Email"
-                icon={<IconMail size={20} />}
-                data={data}
-            />
-            <TextInput styles={{input: {borderRadius: '10px',borderBlockColor: 'purple'}}} label="Company" placeholder="Your Company" {...form.getInputProps('company')} />
-            <InputBase styles={{input: {borderRadius: '10px',borderBlockColor: 'purple'}}} icon={<IconDeviceMobile/>} label="Phone Number" component={InputMask} mask="+9 (999)-999-9999" placeholder="+1 (213)-123-5678" {...form.getInputProps('phone')}/>
-            <Button type="submit" onClick={()=>{Check(),form.setFieldValue('email',email)}} style={{margin: '2%'}} variant="outline" color="violet">
-                Submit
-            </Button>
-        </form>
-    </>
+        <div ref={ref} style={{display: "flex",justifyContent: 'space-around',flexWrap: 'wrap'}}>
+            <motion.div animate={animation} style={{margin: '5%'}}>
+                <form style={{minWidth: '300%',marginBlock: '10%'}} onSubmit={form.onSubmit((values)=>console.log(values))}>
+                    <TextInput styles={{input: {borderRadius: '10px',borderColor: 'teal'}}} label="Name" placeholder="Alex Arma" {...form.getInputProps('names')} />
+                    <Autocomplete 
+                        styles={{input: {borderRadius: '10px',borderColor: 'teal'}}}
+                        withAsterisk
+                        value={email}
+                        onChange={setEmail}
+                        label="Email"
+                        placeholder="Your Email"
+                        icon={<IconMail size={20} />}
+                        data={data}
+                    />
+                    <TextInput styles={{input: {borderRadius: '10px',borderColor: 'teal'}}} label="Company" placeholder="Your Company" {...form.getInputProps('company')} />
+                    <InputBase styles={{input: {borderRadius: '10px',borderColor: 'teal'}}} icon={<IconDeviceMobile/>} label="Phone Number" component={InputMask} mask="+9 (999)-999-9999" placeholder="+1 (213)-123-5678" {...form.getInputProps('phone')}/>
+                    
+                    <motion.div style={{display: 'inline-block',margin: '2%'}}  whileHover={{scale: 1.2}} whileTap={{scale: .7}}>
+                        <Button type="submit" onClick={()=>{Check(),form.setFieldValue('email',email)}} style={{margin: '2%'}} variant="outline" color="teal">
+                            Submit
+                        </Button>
+                    </motion.div>
+                </form>
+            </motion.div>
+            <motion.div animate={animation2} style={{width: '500px', margin: '5%'}}>
+                <h1 style={{fontSize: 15}}>Team Members</h1>
+                <Accordion styles={{
+        item: {
+          // styles added to all items
+          backgroundColor: '',
+          border: '1px solid teal',
+          transition: 'transform 150ms ease',
+          // styles added to expanded item
+          '&[data-active]': {
+            zIndex: 1,
+            backgroundColor: 'black',
+            transform: 'scale(1.05)',
+          },
+        },
+
+        chevron: {
+          // styles added to chevron when it should rotate
+          '&[data-rotate]': {
+            transform: 'rotate(-90deg)',
+          },
+        },
+      }} variant="filled" defaultValue="customization">
+                    <Accordion.Item value="Pranav">
+                        <Accordion.Control>
+                            <Group>
+                                <Avatar color="teal" src={<IconUserCircle/>}/>
+                                <p>Pranav</p>
+                            </Group>
+                        </Accordion.Control>  
+                        <Accordion.Panel>BoilerPlate</Accordion.Panel>      
+                    </Accordion.Item>
+                    <Accordion.Item value="Nishanth">
+                        <Accordion.Control>
+                            <Group>
+                                <Avatar color="teal" src={<IconUserCircle/>}/>
+                                <p>Nishanth</p>
+                            </Group>
+                        </Accordion.Control>
+                        <Accordion.Panel>boilerplate</Accordion.Panel>
+                    </Accordion.Item>
+                    <Accordion.Item value="Riti">
+                        <Accordion.Control>
+                            <Group>
+                                <Avatar color="teal" src={<IconUserCircle/>}/>
+                                <p>Riti</p>
+                            </Group>
+                        </Accordion.Control>
+                        <Accordion.Panel>boilerplate</Accordion.Panel>
+                    </Accordion.Item>
+                </Accordion>
+            </motion.div>
+        </div>
     );
   }
 
