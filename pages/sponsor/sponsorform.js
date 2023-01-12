@@ -1,6 +1,6 @@
 import { useForm } from "@mantine/form";
-import { Avatar,Modal, Button, Group, InputBase,TextInput,Stepper,Tabs,Image,Autocomplete,Accordion } from '@mantine/core';
-import { IconDeviceMobile,IconMail,IconX,IconPhoto,IconMessageCircle,IconUserCircle,IconCheck,IconPigMoney,IconChevronsRight,IconAward,IconAd,IconTrophy } from '@tabler/icons';
+import { Text,Badge,Avatar,Modal, Button, Group, InputBase,TextInput,Stepper,Tabs,Image,Autocomplete,Accordion,Card} from '@mantine/core';
+import { IconSectionSign,IconDeviceMobile,IconMail,IconX,IconPhoto,IconMessageCircle,IconUserCircle,IconCheck,IconPigMoney,IconChevronsRight,IconAward,IconAd,IconTrophy } from '@tabler/icons';
 import { showNotification,updateNotification} from "@mantine/notifications";
 import {useState,useEffect } from "react";
 import {motion,useAnimation } from 'framer-motion';
@@ -15,18 +15,22 @@ function sponsorform() {
             <div>
                 <Image style={{filter: 'brightness(20%)'}} height={150} src="https://images.unsplash.com/photo-1505664063603-28e48ca204eb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"></Image>
             </div>
-            <Tabs color="teal" defaultValue="gallery" style={{textAlign: 'center'}}>
+            <Tabs color="teal" defaultValue="Sponsor Info" style={{textAlign: 'center'}}>
                 <Tabs.List grow position="center">
-                    <Tabs.Tab value="gallery" icon={<IconPhoto size={14} />}>Gallery</Tabs.Tab>
+                    <Tabs.Tab value="Sponsor Info" icon={<IconSectionSign size={14} />}>Sponsor Info</Tabs.Tab>
                     <Tabs.Tab value="Form" icon={<IconMessageCircle size={14} />}>Form</Tabs.Tab>
                 </Tabs.List>
 
-                <Tabs.Panel value="gallery" pt="xs">
-                    <Model/>
+                <Tabs.Panel value="Sponsor Info" pt="xs">
+                    <div style={{display: 'flex'}}>
+                        <SomeInfo/>
+                    </div>
                 </Tabs.Panel>
 
                 <Tabs.Panel value="Form" pt="xs">
-                    <Form/>
+                    <div style={{marginBottom: '10%'}}>
+                        <Form/>
+                    </div>
                 </Tabs.Panel>
             </Tabs>
         </div>
@@ -127,7 +131,6 @@ function Form() {
                     />
                     <TextInput styles={{input: {borderRadius: '10px',borderColor: 'teal'}}} label="Company" placeholder="Your Company" {...form.getInputProps('company')} />
                     <InputBase styles={{input: {borderRadius: '10px',borderColor: 'teal'}}} icon={<IconDeviceMobile/>} label="Phone Number" component={InputMask} mask="+9 (999)-999-9999" placeholder="+1 (213)-123-5678" {...form.getInputProps('phone')}/>
-                    
                     <motion.div style={{display: 'inline-block',margin: '2%'}}  whileHover={{scale: 1.2}} whileTap={{scale: .7}}>
                         <Button type="submit" onClick={()=>{Check(),form.setFieldValue('email',email)}} style={{margin: '2%'}} variant="outline" color="teal">
                             Submit
@@ -136,7 +139,7 @@ function Form() {
                 </form>
             </motion.div>
             <motion.div animate={animation2} style={{width: '500px', margin: '5%'}}>
-                <h1 style={{fontSize: 15}}>Team Members</h1>
+                <h1 style={{fontSize: 15}}>Important Team Members</h1>
                 <Accordion styles={{
         item: {
           // styles added to all items
@@ -185,6 +188,15 @@ function Form() {
                         </Accordion.Control>
                         <Accordion.Panel>boilerplate</Accordion.Panel>
                     </Accordion.Item>
+                    <Accordion.Item value="Neel">
+                        <Accordion.Control>
+                            <Group>
+                                <Avatar color="teal" src={<IconUserCircle/>}/>
+                                <p>Neel</p>
+                            </Group>
+                        </Accordion.Control>
+                        <Accordion.Panel>boilerplate</Accordion.Panel>
+                    </Accordion.Item>
                 </Accordion>
             </motion.div>
         </div>
@@ -229,6 +241,32 @@ function Model(){
                 <Button onClick={() => setOpened(true)}>Why Sponsor Us?</Button>
             </Group>
         </>
+    )
+}
+
+function SomeInfo(){
+    return(
+        <div style={{margin:'auto',marginTop: '5%',marginBottom: '20%'}}>
+            <Card shadow="sm" p="lg" radius="md" withBorder>
+                <Card.Section component="a">
+                    <Image
+                    src="/book.jpg"
+                    height={260}
+                    alt="Law Book"
+                    />
+                </Card.Section>
+
+                <Group position="apart" mt="md" mb="xs">
+                    <Text weight={500}>Why this Club was Created</Text>
+                </Group>
+
+                <Text size="sm" color="dimmed">
+                    Joe Mama looks so zesty so wants pranav asdadadadadasdadasdadadasddasdadadadadadadadad
+                </Text>
+
+                <Model/>
+            </Card>
+        </div>
     )
 }
 
